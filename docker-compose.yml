@@ -1,0 +1,9 @@
+services:
+  frontend:
+    build: ./frontend
+    volumes:
+      - ./frontend:/project/frontend
+      - /project/frontend/node_modules
+    ports:
+      - "3000:3000"
+    command: sh -c "bun dev"
