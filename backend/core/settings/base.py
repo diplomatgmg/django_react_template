@@ -20,27 +20,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Loading environment variables
 load_dotenv(BASE_DIR / ".." / ".env")
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY", "supersecretkey")
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG") == "True"
-
-DEBUG_TOOLBAR_CONFIG = {
-    "SHOW_TOOLBAR_CALLBACK": lambda request: DEBUG,
-}
-
-ALLOWED_HOSTS = []
-
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-]
-
-
-# Application definition
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -52,7 +31,6 @@ INSTALLED_APPS = [
     # Libraries
     "rest_framework",
     "corsheaders",
-    "debug_toolbar",
     # Custom apps
     "apps.example_app",
 ]
@@ -66,7 +44,6 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "corsheaders.middleware.CorsMiddleware",
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = "core.urls"

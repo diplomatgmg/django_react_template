@@ -1,12 +1,35 @@
-FROM python:3.12-slim
+FROM python:3.12-slim as base
 
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
 WORKDIR /project/backend
 
-COPY requirements.txt ./
-RUN pip install --no-cache-dir --upgrade pip
-RUN pip install --no-cache-dir -r requirements.txt
+RUN apt-get update && apt-get install -y
+RUN pip install --upgrade pip
+
+
+## LOCAL
+FROM base as local
+
+COPY ./requirements/base.txt ./requirements/base.txt
+COPY ./requirements/local.txt ./requirements/local.txt
+RUN pip install -r requirements/local.txt
 COPY . .
 
-EXPOSE 8000
+ENV DJANGO_SETTINGS_MODULE=core.settings.local
+
+CMD ["sh", "startup/local.sh"]
+
+
+## PRODUCTION
+FROM base as production
+
+COPY ./requirements/base.txt ./requirements/base.txt
+COPY ./requirements/production.txt ./requirements/production.txt
+RUN pip install -r requirements/production.txt
+COPY . .
+
+ENV DJANGO_SETTINGS_MODULE=core.settings.production
+
+CMD ["sh", "startup/production.sh"]

@@ -1,5 +1,6 @@
 services:
   frontend:
+    container_name: frontend
     build: ./frontend
     volumes:
       - ./frontend:/project/frontend
@@ -9,20 +10,25 @@ services:
     command: sh -c "bun dev"
 
   backend:
-    build: ./backend
+    container_name: backend
+    build:
+      context: ./backend
+      target: ${BUILD_TARGET}
     volumes:
       - ./backend:/project/backend
     ports:
       - "8000:8000"
     env_file:
       - .env
-    command: sh -c "sh startup.sh"
     depends_on:
       postgres:
         condition: service_healthy
 
   postgres:
+    container_name: postgres
     image: postgres:16.2-alpine
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     env_file:
@@ -32,3 +38,6 @@ services:
       interval: 3s
       timeout: 1s
       retries: 5
+
+volumes:
+  postgres-data:
