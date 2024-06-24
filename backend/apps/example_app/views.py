@@ -4,7 +4,6 @@ from rest_framework.response import Response
 
 @api_view(["GET"])
 def example_view(request):
-    print(request)
     return Response(
         [
             {"id": 1, "name": "Laptop"},
