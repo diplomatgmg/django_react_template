@@ -1,3 +1,5 @@
+version: "3.8"
+
 services:
   frontend:
     container_name: frontend
@@ -8,6 +10,8 @@ services:
     ports:
       - "3000:3000"
     command: sh -c "bun dev"
+    networks:
+      - app-network
 
   backend:
     container_name: backend
@@ -24,6 +28,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    networks:
+      - app-network
 
   nginx:
     container_name: nginx
@@ -37,6 +43,8 @@ services:
     depends_on:
       - frontend
       - backend
+    networks:
+      - app-network
 
   postgres:
     container_name: postgres
@@ -48,12 +56,18 @@ services:
     env_file:
       - .env
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -h ${POSTGRES_HOST} -p ${POSTGRES_PORT} -d ${POSTGRES_DB}" ]
+      test: pg_isready -h ${POSTGRES_HOST} -p ${POSTGRES_PORT} -d ${POSTGRES_DB}
       interval: 3s
       timeout: 1s
       retries: 5
+    networks:
+      - app-network
 
 
 volumes:
   postgres-data:
   static_volume:
+
+networks:
+  app-network:
+    driver: bridge
