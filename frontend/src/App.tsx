@@ -2,9 +2,13 @@ import { useState } from "react"
 import reactLogo from "./assets/react.svg"
 import viteLogo from "/vite.svg"
 import "./App.css"
+import { useExampleEndpointQuery } from "./store/exampleApi.ts"
 
 function App() {
   const [count, setCount] = useState(0)
+  const { data, isLoading } = useExampleEndpointQuery()
+
+  if (isLoading) return <h1>Loading...</h1>
 
   return (
     <>
@@ -24,6 +28,7 @@ function App() {
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
+        <ul>{data?.map(({ id, name }) => <li key={id}>{name}</li>)}</ul>
       </div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
