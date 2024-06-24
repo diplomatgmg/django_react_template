@@ -1,10 +1,4 @@
-echo "Migrate database..."
-python manage.py migrate
-echo "Database migrated"
-
-echo "Collecting static files..."
-python manage.py collectstatic --no-input
-echo "Static files collected"
+bash "$(pwd)/startup/base.sh"
 
 echo "Checking deployment readiness..."
 python manage.py check --deploy
