@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "debug_toolbar",
     # Custom apps
+    "apps.example_app",
 ]
 
 MIDDLEWARE = [
