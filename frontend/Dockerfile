@@ -5,5 +5,3 @@ WORKDIR /project/frontend
 COPY package.json ./
 RUN bun install
 COPY . ./
-
-EXPOSE 3000
