@@ -1,4 +1,5 @@
 .idea/
+bun.lockb
 
 ### Django template
 *.log
