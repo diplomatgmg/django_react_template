@@ -8,20 +8,20 @@ WORKDIR /project/backend
 RUN pip install --upgrade pip
 
 
-## LOCAL
-FROM base as local
+# DEVELOPMENT
+FROM base as development
 
 COPY ./requirements/base.txt ./requirements/base.txt
-COPY ./requirements/local.txt ./requirements/local.txt
-RUN pip install -r requirements/local.txt
+COPY ./requirements/development.txt ./requirements/development.txt
+RUN pip install -r requirements/development.txt
 COPY . .
 
-ENV DJANGO_SETTINGS_MODULE=core.settings.local
+ENV DJANGO_SETTINGS_MODULE=core.settings.development
 
-CMD ["sh", "startup/local.sh"]
+CMD ["sh", "startup/development.sh"]
 
 
-## PRODUCTION
+# PRODUCTION
 FROM base as production
 
 COPY ./requirements/base.txt ./requirements/base.txt

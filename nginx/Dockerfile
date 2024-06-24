@@ -1,11 +1,11 @@
-FROM nginx:latest as base
+FROM nginx:alpine as base
 
 RUN rm /etc/nginx/conf.d/default.conf
 
 
 
 # DEVELOPMENT
-FROM base as local
+FROM base as development
 
 COPY ./development/default.conf /etc/nginx/conf.d
 
